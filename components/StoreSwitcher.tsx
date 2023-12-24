@@ -5,9 +5,10 @@ import { Store } from "@prisma/client";
 import { useRouter, useParams } from "next/navigation";
 import {useStoreModal} from "@/hooks/use-store-modal"
 import { Button } from "@/components/ui/button";
-import { ChevronsUpDown, Store as StoreIcon } from "lucide-react";
+import { ChevronsUpDown, Store as StoreIcon, Check, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandList, CommandItem } from "@/components/ui/command";
+import { CommandSeparator } from "cmdk";
 
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
@@ -48,7 +49,7 @@ export default function StoreSwitcher({
            className = {cn("w-[200px] justify-betweem", className)}
            >
             <StoreIcon size={24} className = "mr-2 h-4 w-4"/> 
-            Current Store
+            {currentStore?.label}
             <ChevronsUpDown size={24} className = "ml-auto h-4 w-4 shrink-0 opacity-50"/> 
            </Button>
         </PopoverTrigger>
@@ -58,11 +59,30 @@ export default function StoreSwitcher({
                     <CommandInput placeholder = "Search Stores" />
                     <CommandEmpty>No Store Found!</CommandEmpty>
                     <CommandGroup heading = "Stores">
-                        {formattedItems.map((item) => (
-                            <CommandItem>
-
+                        {formattedItems.map((store) => (
+                            <CommandItem
+                            key = {store.value}
+                            onSelect = {()=>onStoreSelect(store)}
+                            className = "text-sm"
+                            >
+                            <StoreIcon size={24} className = "mr-2 h-4 w-4"/>
+                            {store.label}
+                            <Check className = {cn("ml-auto h-4 w-4", currentStore?.value === store.value ? "opacity-100" : "opacity-0")}/>
                             </CommandItem>
                         ))}
+                    </CommandGroup>
+                </CommandList>
+                <CommandSeparator/>
+                <CommandList>
+                    <CommandGroup>
+                        <CommandItem onSelect = {()=>{
+                            setOpen(false)
+                            storemodal.onOpen()
+                        
+                        }}>
+                            <PlusCircle className = "mr-2 h-5 w-5"/>
+                            Create Store
+                        </CommandItem>
                     </CommandGroup>
                 </CommandList>
             </Command>
