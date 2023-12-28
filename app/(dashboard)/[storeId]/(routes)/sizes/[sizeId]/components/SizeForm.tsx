@@ -15,8 +15,7 @@ import { Separator } from "@/components/ui/separator"
 import {Form, FormField, FormItem, FormLabel, FormControl, FormMessage} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { AlertModal } from "@/components/modals/alert-modal"
-import { useOrigin } from "@/hooks/use-origin"
-import ImageUpload from "@/components/ui/image-upload"
+
 
 
 const formSchema = z.object({
@@ -35,7 +34,6 @@ const SizeForm: React.FC<SizeFormProps> = ({
 }) => {
   const params = useParams()
   const router = useRouter()
-  const origin = useOrigin()
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -73,10 +71,10 @@ const SizeForm: React.FC<SizeFormProps> = ({
       setLoading(true)
       axios.delete(`/api/${params.storeId}/sizes/${params.sizeId}`)
       router.refresh()
-      router.push("/")
+      router.push(`/${params.storeId}/sizes`)
       toast.success("Size deleted.")
     } catch (error) {
-      toast.error("Make sure you remove all categories using this size.")
+      toast.error("Make sure you remove all products using this size.")
     }finally{
       setLoading(false)
       setOpen(false)

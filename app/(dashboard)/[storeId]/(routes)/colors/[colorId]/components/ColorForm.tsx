@@ -37,7 +37,7 @@ const ColorForm: React.FC<ColorFormProps> = ({
 }) => {
   const params = useParams()
   const router = useRouter()
-  const origin = useOrigin()
+  
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -112,7 +112,7 @@ const ColorForm: React.FC<ColorFormProps> = ({
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder="Size name" {...field} />
+                    <Input disabled={loading} placeholder="Color name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
